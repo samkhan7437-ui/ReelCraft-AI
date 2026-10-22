@@ -40,12 +40,16 @@ def on_startup():
     if not os.getenv("VERCEL"):
         start_scheduler()
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 def serve_index():
     index_file = STATIC_DIR / "index.html"
     if index_file.exists():
         return FileResponse(index_file)
     return {"message": "ReelCraft AI backend is running."}
+
+@app.api_route("/health", methods=["GET", "HEAD"])
+def health_check():
+    return {"status": "ok"}
 
 # Models
 class ScriptRequest(BaseModel):
