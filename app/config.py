@@ -11,13 +11,25 @@ BACKGROUNDS_DIR = ASSETS_DIR / "backgrounds"
 MUSIC_DIR = ASSETS_DIR / "music"
 FONTS_DIR = ASSETS_DIR / "fonts"
 
-OUTPUT_DIR = BASE_DIR / "output"
+# Serverless / Vercel ephemeral writable path support
+if os.getenv("VERCEL") == "1" or os.getenv("OUTPUT_DIR"):
+    OUTPUT_DIR = Path(os.getenv("OUTPUT_DIR", "/tmp/output"))
+else:
+    OUTPUT_DIR = BASE_DIR / "output"
+
 AUDIO_OUTPUT_DIR = OUTPUT_DIR / "audio"
 VIDEO_OUTPUT_DIR = OUTPUT_DIR / "videos"
 
-# Ensure directories exist
-for path in [BACKGROUNDS_DIR, MUSIC_DIR, FONTS_DIR, AUDIO_OUTPUT_DIR, VIDEO_OUTPUT_DIR]:
+# Ensure output directories exist
+for path in [AUDIO_OUTPUT_DIR, VIDEO_OUTPUT_DIR]:
     path.mkdir(parents=True, exist_ok=True)
+
+# Assets directory may be read-only in serverless
+for path in [BACKGROUNDS_DIR, MUSIC_DIR, FONTS_DIR]:
+    try:
+        path.mkdir(parents=True, exist_ok=True)
+    except Exception:
+        pass
 
 # Settings from Environment
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "builtin").lower()

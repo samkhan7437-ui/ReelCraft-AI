@@ -2,6 +2,7 @@ import os
 import subprocess
 import random
 import requests
+import shutil
 from pathlib import Path
 from typing import Optional, Dict, Any, List
 from app.config import (
@@ -9,6 +10,18 @@ from app.config import (
 )
 
 IMAGES_OUTPUT_DIR = OUTPUT_DIR / "images"
+
+def get_ffmpeg_bin() -> str:
+    """Finds FFmpeg from system PATH or falls back to imageio-ffmpeg binary."""
+    found = shutil.which("ffmpeg")
+    if found:
+        return found
+    try:
+        import imageio_ffmpeg
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except Exception:
+        pass
+    return "ffmpeg"
 
 # Niche-specific Procedural Visual Filter Generators
 NICHE_VISUAL_FILTERS = {
@@ -231,7 +244,7 @@ def render_reel(
                 print(f"[Video Engine] 🖼️ Using {len(valid_images)} AI-generated scene images as slideshow")
 
     # Build FFmpeg command
-    cmd = ["ffmpeg", "-y"]
+    cmd = [get_ffmpeg_bin(), "-y"]
 
     if use_slideshow:
         # Scene image slideshow mode

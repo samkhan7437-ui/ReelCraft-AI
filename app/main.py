@@ -37,7 +37,8 @@ app.mount("/media/images", StaticFiles(directory=str(IMAGES_OUTPUT_DIR)), name="
 
 @app.on_event("startup")
 def on_startup():
-    start_scheduler()
+    if not os.getenv("VERCEL"):
+        start_scheduler()
 
 @app.get("/")
 def serve_index():
