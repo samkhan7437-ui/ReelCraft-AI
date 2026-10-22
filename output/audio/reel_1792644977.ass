@@ -1,0 +1,59 @@
+[Script Info]
+Title: ReelCraft Captions
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: None
+PlayResX: 1080
+PlayResY: 1920
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: PartBadge,Nirmala UI,52,&H0000FFFF,&H000000FF,&H00000000,&HB0000000,-1,0,0,0,100,100,0,0,3,14,0,8,60,60,160,1
+Style: YellowPop,Nirmala UI,76,&H0000FFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,8,4,2,60,60,720,1
+Style: WhitePop,Nirmala UI,76,&H00FFFFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,8,4,2,60,60,720,1
+Style: GreenPop,Nirmala UI,76,&H0000FF00,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,8,4,2,60,60,720,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.10,0:00:01.57,YellowPop,,0,0,0,,१९७४ में गहरे
+Dialogue: 0,0:00:01.57,0:00:03.04,WhitePop,,0,0,0,,समुद्र के गोताखोर
+Dialogue: 0,0:00:03.04,0:00:04.52,GreenPop,,0,0,0,,रॉबर्ट शॉ प्रशांत
+Dialogue: 0,0:00:04.52,0:00:05.99,WhitePop,,0,0,0,,महासागर में आठ
+Dialogue: 0,0:00:05.99,0:00:07.46,YellowPop,,0,0,0,,हजार फीट नीचे
+Dialogue: 0,0:00:07.46,0:00:08.93,WhitePop,,0,0,0,,एक कैप्सूल में
+Dialogue: 0,0:00:08.93,0:00:09.91,GreenPop,,0,0,0,,बंद थे।
+Dialogue: 0,0:00:09.86,0:00:11.20,WhitePop,,0,0,0,,रात के दो
+Dialogue: 0,0:00:11.20,0:00:12.54,YellowPop,,0,0,0,,बजकर चौदह मिनट
+Dialogue: 0,0:00:12.54,0:00:13.88,WhitePop,,0,0,0,,पर उनका संपर्क
+Dialogue: 0,0:00:13.88,0:00:14.78,GreenPop,,0,0,0,,टूट गया।
+Dialogue: 0,0:00:14.78,0:00:16.94,WhitePop,,0,0,0,,सन्नाटा छा गया।
+Dialogue: 0,0:00:16.94,0:00:18.37,YellowPop,,0,0,0,,तभी टाइटेनियम की
+Dialogue: 0,0:00:18.37,0:00:19.80,WhitePop,,0,0,0,,दीवार के बाहर
+Dialogue: 0,0:00:19.80,0:00:21.24,GreenPop,,0,0,0,,से उन्हें तीन
+Dialogue: 0,0:00:21.24,0:00:22.67,WhitePop,,0,0,0,,लगातार खटखटाने की
+Dialogue: 0,0:00:22.67,0:00:24.10,YellowPop,,0,0,0,,आवाजें सुनाई दीं।
+Dialogue: 0,0:00:24.10,0:00:25.42,WhitePop,,0,0,0,,जैसे कोई लोहे
+Dialogue: 0,0:00:25.42,0:00:26.73,GreenPop,,0,0,0,,पर उंगलियों से
+Dialogue: 0,0:00:26.73,0:00:28.05,WhitePop,,0,0,0,,दस्तक दे रहा
+Dialogue: 0,0:00:28.05,0:00:28.49,YellowPop,,0,0,0,,हो।
+Dialogue: 0,0:00:28.49,0:00:29.86,WhitePop,,0,0,0,,सोनार पर पचास
+Dialogue: 0,0:00:29.86,0:00:31.23,GreenPop,,0,0,0,,मील तक कोई
+Dialogue: 0,0:00:31.23,0:00:32.60,WhitePop,,0,0,0,,जीव नहीं था।
+Dialogue: 0,0:00:32.60,0:00:33.85,YellowPop,,0,0,0,,जब कैप्सूल ऊपर
+Dialogue: 0,0:00:33.85,0:00:35.09,WhitePop,,0,0,0,,लाया गया, तो
+Dialogue: 0,0:00:35.09,0:00:36.34,GreenPop,,0,0,0,,स्टील के गेट
+Dialogue: 0,0:00:36.34,0:00:37.58,WhitePop,,0,0,0,,पर इंसान की
+Dialogue: 0,0:00:37.58,0:00:38.83,YellowPop,,0,0,0,,उंगलियों के तीन
+Dialogue: 0,0:00:38.83,0:00:40.08,WhitePop,,0,0,0,,गहरे निशान मिले।
+Dialogue: 0,0:00:40.08,0:00:41.35,GreenPop,,0,0,0,,रॉबर्ट ने अगली
+Dialogue: 0,0:00:41.35,0:00:42.63,WhitePop,,0,0,0,,सुबह नौकरी छोड़
+Dialogue: 0,0:00:42.63,0:00:43.91,YellowPop,,0,0,0,,दी और फिर
+Dialogue: 0,0:00:43.91,0:00:45.18,WhitePop,,0,0,0,,कभी समुद्र की
+Dialogue: 0,0:00:45.18,0:00:46.46,GreenPop,,0,0,0,,तरफ नहीं देखा।
+Dialogue: 0,0:00:46.46,0:00:47.79,WhitePop,,0,0,0,,आपको क्या लगता
+Dialogue: 0,0:00:47.79,0:00:49.12,YellowPop,,0,0,0,,है वह क्या
+Dialogue: 0,0:00:49.12,0:00:49.56,WhitePop,,0,0,0,,था?
+Dialogue: 0,0:00:49.56,0:00:51.11,GreenPop,,0,0,0,,फॉलो करें ऐसी
+Dialogue: 0,0:00:51.11,0:00:52.67,WhitePop,,0,0,0,,ही अनसुलझी कहानियों
+Dialogue: 0,0:00:52.67,0:00:53.70,YellowPop,,0,0,0,,के लिए।

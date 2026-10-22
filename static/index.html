@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReelCraft AI — Faceless Video Studio & Auto-Poster</title>
+  <meta name="description" content="Generate and post viral faceless Instagram Reels on autopilot for any niche.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="studio-header">
+    <div class="logo-area">
+      <div class="logo-badge">
+        <span class="logo-icon">🎬</span>
+      </div>
+      <div>
+        <h1 class="logo-title">ReelCraft <span class="gradient-text">AI</span></h1>
+        <p class="logo-subtitle">Faceless Reels Studio & Auto-Poster</p>
+      </div>
+    </div>
+    
+    <div class="header-status">
+      <div class="status-pill status-ready" id="status-pill">
+        <span class="status-dot"></span>
+        <span id="status-text">Studio Ready</span>
+      </div>
+      <button class="btn btn-outline" id="btn-open-autopilot" title="Autopilot Settings">
+        <span>🤖 Autopilot</span>
+        <span class="badge-mini" id="autopilot-badge">OFF</span>
+      </button>
+      <button class="btn btn-outline" id="btn-open-settings" title="API Settings">
+        <span>⚙️ Settings</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Studio Layout -->
+  <main class="studio-container">
+    <!-- Left Column: Controls & Niche Selector -->
+    <section class="panel control-panel">
+      <div class="panel-header">
+        <h2>1. Configure Reel</h2>
+        <span class="panel-step">Step 1</span>
+      </div>
+
+      <!-- Language Selection (NEW) -->
+      <div class="form-group">
+        <label class="form-label" for="lang-select">Language / भाषा</label>
+        <select id="lang-select" class="form-select">
+          <!-- Populated by JS -->
+        </select>
+      </div>
+
+      <!-- Niche Selection -->
+      <div class="form-group">
+        <div class="label-with-badge">
+          <label class="form-label">Select Content Niche</label>
+          <span class="theme-badge" id="niche-theme-badge">Abyss Blue</span>
+        </div>
+        <div class="niche-grid" id="niche-selector">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Custom Topic -->
+      <div class="form-group">
+        <label class="form-label" for="custom-topic">
+          Custom Topic / Prompt <span class="label-hint">(Optional)</span>
+        </label>
+        <input 
+          type="text" 
+          id="custom-topic" 
+          class="form-input" 
+          placeholder="e.g. The disappearance of Flight 370, Spartan rules..."
+        >
+      </div>
+
+      <!-- Format Toggle: Single vs Multi-Part -->
+      <div class="form-group">
+        <label class="form-label">Story Format</label>
+        <div class="format-toggle-group">
+          <button type="button" class="toggle-btn active" id="btn-format-single" data-format="single">
+            <span class="toggle-icon">⚡</span>
+            <div>
+              <strong>Single Reel</strong>
+              <small>30–50s High Pacing</small>
+            </div>
+          </button>
+          <button type="button" class="toggle-btn" id="btn-format-multi" data-format="multi">
+            <span class="toggle-icon">📚</span>
+            <div>
+              <strong>Multi-Part Story</strong>
+              <small>Episodic Cliffhangers</small>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Parts Selector (Hidden if Single) -->
+      <div class="form-group hidden" id="parts-selector-group">
+        <label class="form-label" for="parts-count">Series Length</label>
+        <select id="parts-count" class="form-select">
+          <option value="2" selected>2 Parts (Cliffhanger + Climax)</option>
+          <option value="3">3 Parts (Trilogy Arc)</option>
+        </select>
+      </div>
+
+      <!-- Voice Selector -->
+      <div class="form-group">
+        <label class="form-label" for="voice-select">Voice Persona (Edge-TTS)</label>
+        <select id="voice-select" class="form-select">
+          <!-- Populated by JS -->
+        </select>
+      </div>
+
+      <!-- Speech Speed (NEW: Slower storytelling pace) -->
+      <div class="form-group">
+        <label class="form-label" for="speed-select">Speech Speed / Pacing</label>
+        <select id="speed-select" class="form-select">
+          <option value="-15%">Slower (-15% - High Suspense & Drama)</option>
+          <option value="-10%" selected>Slightly Slower (-10% - Recommended for Reels)</option>
+          <option value="-5%">Gentle Slower (-5%)</option>
+          <option value="+0%">Normal Speed (0%)</option>
+          <option value="+10%">Fast Paced (+10%)</option>
+        </select>
+      </div>
+
+      <!-- AI Scene Visuals Toggle -->
+      <div class="form-group">
+        <label class="form-label">AI Scene Visuals</label>
+        <div class="ai-visuals-toggle">
+          <div class="ai-visuals-info">
+            <div class="ai-visuals-icon">🎨</div>
+            <div class="ai-visuals-label">
+              <strong>AI-Generated Scenes</strong>
+              <small>Cinematic illustrations matching your script</small>
+            </div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="ai-visuals-switch" checked>
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class="scene-count-group" id="scene-count-group">
+          <label for="scene-count">Scenes per reel:</label>
+          <select id="scene-count" class="scene-count-select">
+            <option value="3">3 Scenes</option>
+            <option value="4" selected>4 Scenes (Recommended)</option>
+            <option value="5">5 Scenes</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Visual Background Footage Source (Fallback) -->
+      <div class="form-group" id="bg-select-group">
+        <label class="form-label" for="bg-select">Fallback Background</label>
+        <select id="bg-select" class="form-select">
+          <option value="">Auto: Dynamic Niche-Themed Visuals</option>
+        </select>
+        <small class="helper-text">🔄 Used if AI image generation is disabled or fails.</small>
+      </div>
+
+      <!-- Generate Script Button -->
+      <button class="btn btn-primary btn-block btn-glow" id="btn-generate-script">
+        <span class="btn-icon">✨</span> Generate Script & Story
+      </button>
+    </section>
+
+    <!-- Center Column: Script Editor & Storyboard -->
+    <section class="panel storyboard-panel">
+      <div class="panel-header">
+        <h2>2. Storyboard & Script</h2>
+        <span class="panel-step">Step 2</span>
+      </div>
+
+      <div class="story-preview-area">
+        <div class="story-meta">
+          <input type="text" id="script-title" class="title-input" placeholder="Reel Title will appear here...">
+          <div class="part-tabs hidden" id="multipart-tabs">
+            <!-- Tabs for Part 1, Part 2 etc. -->
+          </div>
+        </div>
+
+        <div class="form-group script-editor-group">
+          <label class="form-label" for="script-content">
+            Spoken Voiceover Script 
+            <span class="label-hint">(Editable: AI will speak exactly what is written here)</span>
+          </label>
+          <textarea 
+            id="script-content" 
+            class="form-textarea" 
+            rows="10" 
+            placeholder="Click 'Generate Script' on the left to write a viral story, or type your own script here..."
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="script-caption">Instagram Caption & Hashtags</label>
+          <textarea id="script-caption" class="form-textarea caption-textarea" rows="3" placeholder="#viral #reels #mystery..."></textarea>
+        </div>
+
+        <!-- AI Scene Storyboard Gallery -->
+        <div class="scene-storyboard hidden" id="scene-storyboard">
+          <div class="scene-storyboard-header">
+            <div class="scene-storyboard-title">
+              🖼️ Scene Storyboard <span class="scene-count" id="storyboard-count">0</span>
+            </div>
+            <button class="btn-preview-scenes" id="btn-preview-scenes" title="Generate scene previews before rendering">
+              🎨 Preview Scenes
+            </button>
+          </div>
+          <div class="scene-grid" id="scene-grid">
+            <!-- Scene thumbnails will be populated by JS -->
+          </div>
+        </div>
+
+        <!-- Render Video Button -->
+        <button class="btn btn-success btn-block btn-glow" id="btn-render-video" disabled>
+          <span class="btn-icon">🎬</span> Render Vertical Video (1080x1920)
+        </button>
+
+        <!-- Live Render Progress Bar -->
+        <div class="render-progress hidden" id="render-progress">
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+          </div>
+          <p class="progress-status" id="progress-status">Synthesizing neural voiceover & sync timestamps...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Column: Video Preview Theater & Auto-Poster -->
+    <section class="panel theater-panel">
+      <div class="panel-header">
+        <h2>3. Preview & Publish</h2>
+        <span class="panel-step">Step 3</span>
+      </div>
+
+      <!-- Mobile Video Phone Mockup -->
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="video-container">
+          <video id="player" controls playsinline loop class="main-video">
+            <source src="/media/videos/reel_1792479772.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="empty-video-placeholder hidden" id="empty-placeholder">
+            <div class="placeholder-icon">📱</div>
+            <p>Your rendered 9:16 Reel will appear here with dynamic animated subtitles.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Details Bar -->
+      <div class="video-meta-bar" id="video-meta-bar">
+        <span class="meta-tag" id="meta-duration">⏱️ 32.0s</span>
+        <span class="meta-tag" id="meta-resolution">📐 1080x1920 (9:16)</span>
+        <span class="meta-tag" id="meta-size">💾 6.1 MB</span>
+        <span class="meta-tag ai-visual hidden" id="meta-ai-visuals">🎨 AI Visuals</span>
+      </div>
+
+      <!-- Rendered Scene Strip (mini thumbnails) -->
+      <div class="rendered-scenes-strip hidden" id="rendered-scenes-strip">
+        <!-- Populated after render -->
+      </div>
+
+      <!-- Multi-Part Video Switcher (if multi-part rendered) -->
+      <div class="multi-video-selector hidden" id="multi-video-selector">
+        <!-- Rendered parts buttons -->
+      </div>
+
+      <!-- Publishing Action Controls -->
+      <div class="action-buttons-group">
+        <button class="btn btn-primary btn-block" id="btn-publish-instagram">
+          <span class="btn-icon">🚀</span> Post to Instagram Reels
+        </button>
+        <div class="secondary-actions">
+          <a class="btn btn-outline" id="btn-download-mp4" href="/media/videos/reel_1792479772.mp4" download="reel.mp4">
+            <span>📥 Download MP4</span>
+          </a>
+          <button class="btn btn-outline" id="btn-copy-caption">
+            <span>📋 Copy Caption</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom Section: Post History & Queue -->
+  <section class="history-section">
+    <div class="history-header">
+      <h2>📜 Recent Reels & Publishing Queue</h2>
+      <button class="btn btn-sm btn-outline" id="btn-refresh-history">🔄 Refresh</button>
+    </div>
+    <div class="history-table-container">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Filename</th>
+            <th>Caption Preview</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="history-tbody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Modal: Autopilot Automation -->
+  <div class="modal-backdrop hidden" id="modal-autopilot">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>🤖 Hands-Free Autopilot Scheduler</h3>
+        <button class="btn-close" id="btn-close-autopilot">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          When Autopilot is enabled, ReelCraft AI will automatically generate viral scripts, render 9:16 videos, and schedule or publish them in the background on your machine.
+        </p>
+
+        <div class="toggle-card">
+          <div class="toggle-info">
+            <strong>Enable Autopilot</strong>
+            <p>Runs automatically in the background</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="autopilot-enable-switch">
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="autopilot-interval">Posting Frequency</label>
+          <select id="autopilot-interval" class="form-select">
+            <option value="6">Every 6 Hours (4 Reels / Day)</option>
+            <option value="12" selected>Every 12 Hours (2 Reels / Day)</option>
+            <option value="24">Every 24 Hours (1 Reel / Day)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="autopilot-niche">Target Niche</label>
+          <select id="autopilot-niche" class="form-select">
+            <!-- Populated by JS -->
+          </select>
+        </div>
+
+        <div class="autopilot-status-box" id="autopilot-status-box">
+          <p><strong>Status:</strong> <span id="auto-status-text">Disabled</span></p>
+          <p><strong>Next Scheduled Post:</strong> <span id="auto-next-run">None</span></p>
+          <p><strong>Total Auto-Generated:</strong> <span id="auto-total-count">0</span></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="btn-cancel-autopilot">Close</button>
+        <button class="btn btn-primary" id="btn-save-autopilot">Save Configuration</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: API Settings -->
+  <div class="modal-backdrop hidden" id="modal-settings">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>⚙️ Studio Settings & Meta API</h3>
+        <button class="btn-close" id="btn-close-settings">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-group">
+          <h4>📱 Instagram / Meta Graph API</h4>
+          <p class="helper-text">
+            Required for 1-click live posting to Instagram Reels. (Must be an Instagram Business or Creator account connected to a Facebook Page).
+          </p>
+          <div class="form-group">
+            <label class="form-label" for="set-ig-account">Instagram Account ID</label>
+            <input type="text" id="set-ig-account" class="form-input" placeholder="e.g. 17841400000000000">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="set-ig-token">Instagram Access Token</label>
+            <input type="password" id="set-ig-token" class="form-input" placeholder="EAA...">
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h4>🧠 Script Generator LLM Provider</h4>
+          <p class="helper-text">
+            Currently running on <strong>Builtin Multi-lingual Curated Engine</strong> (Free & Local). You can also connect Ollama or cloud APIs.
+          </p>
+          <div class="form-group">
+            <label class="form-label" for="set-llm-provider">Provider</label>
+            <select id="set-llm-provider" class="form-select">
+              <option value="builtin">Builtin Curated Engine (100% Free & Local, Zero API Key)</option>
+              <option value="ollama">Ollama (Local Offline LLM - Llama 3 / Mistral)</option>
+              <option value="gemini">Google Gemini API</option>
+              <option value="openai">OpenAI (GPT-4o Mini)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="btn-cancel-settings">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+[Script Info]
+Title: ReelCraft Captions
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: None
+PlayResX: 1080
+PlayResY: 1920
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: PartBadge,Impact,52,&H0000FFFF,&H000000FF,&H00000000,&HB0000000,-1,0,0,0,100,100,0,0,3,14,0,8,60,60,160,1
+Style: YellowPop,Impact,76,&H0000FFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,8,4,2,60,60,720,1
+Style: WhitePop,Impact,76,&H00FFFFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,8,4,2,60,60,720,1
+Style: GreenPop,Impact,76,&H0000FF00,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,8,4,2,60,60,720,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.05,0:00:01.19,YellowPop,,0,0,0,,MARCUS AURELIUS WROTE:
+Dialogue: 0,0:00:01.19,0:00:02.34,WhitePop,,0,0,0,,'WASTE NO MORE
+Dialogue: 0,0:00:02.34,0:00:03.48,GreenPop,,0,0,0,,TIME ARGUING WHAT
+Dialogue: 0,0:00:03.48,0:00:04.62,WhitePop,,0,0,0,,A GOOD MAN
+Dialogue: 0,0:00:04.62,0:00:05.39,YellowPop,,0,0,0,,SHOULD BE.
+Dialogue: 0,0:00:05.39,0:00:06.38,WhitePop,,0,0,0,,BE ONE.'
+Dialogue: 0,0:00:06.38,0:00:07.28,GreenPop,,0,0,0,,MOST MEN FAIL
+Dialogue: 0,0:00:07.28,0:00:08.19,WhitePop,,0,0,0,,IN LIFE BECAUSE
+Dialogue: 0,0:00:08.19,0:00:09.09,YellowPop,,0,0,0,,THEY ANNOUNCE THEIR
+Dialogue: 0,0:00:09.09,0:00:10.00,WhitePop,,0,0,0,,GOALS BEFORE THEY
+Dialogue: 0,0:00:10.00,0:00:10.91,GreenPop,,0,0,0,,EVEN TAKE THE
+Dialogue: 0,0:00:10.91,0:00:11.51,WhitePop,,0,0,0,,FIRST STEP.
+Dialogue: 0,0:00:11.51,0:00:12.55,YellowPop,,0,0,0,,THEY CRAVE THE
+Dialogue: 0,0:00:12.55,0:00:13.58,WhitePop,,0,0,0,,CHEAP DOPAMINE OF
+Dialogue: 0,0:00:13.58,0:00:14.62,GreenPop,,0,0,0,,PRAISE FOR THINGS
+Dialogue: 0,0:00:14.62,0:00:15.65,WhitePop,,0,0,0,,THEY HAVEN'T ACHIEVED.
+Dialogue: 0,0:00:15.65,0:00:16.78,YellowPop,,0,0,0,,IN ANCIENT SPARTA,
+Dialogue: 0,0:00:16.78,0:00:17.91,WhitePop,,0,0,0,,SOLDIERS WERE TAUGHT
+Dialogue: 0,0:00:17.91,0:00:19.05,GreenPop,,0,0,0,,TO ANSWER COMPLEX
+Dialogue: 0,0:00:19.05,0:00:20.18,WhitePop,,0,0,0,,QUESTIONS IN A
+Dialogue: 0,0:00:20.18,0:00:21.31,YellowPop,,0,0,0,,SINGLE, SHARP SENTENCE.
+Dialogue: 0,0:00:21.31,0:00:22.52,WhitePop,,0,0,0,,IF YOU WANT
+Dialogue: 0,0:00:22.52,0:00:23.74,GreenPop,,0,0,0,,RESPECT, MASTER THE
+Dialogue: 0,0:00:23.74,0:00:24.95,WhitePop,,0,0,0,,ART OF SILENCE.
+Dialogue: 0,0:00:24.95,0:00:25.82,YellowPop,,0,0,0,,LET YOUR DISCIPLINE
+Dialogue: 0,0:00:25.82,0:00:26.69,WhitePop,,0,0,0,,SPEAK SO LOUD
+Dialogue: 0,0:00:26.69,0:00:27.55,GreenPop,,0,0,0,,THAT YOU NEVER
+Dialogue: 0,0:00:27.55,0:00:28.42,WhitePop,,0,0,0,,HAVE TO RAISE
+Dialogue: 0,0:00:28.42,0:00:29.00,YellowPop,,0,0,0,,YOUR VOICE.
+Dialogue: 0,0:00:29.00,0:00:30.09,WhitePop,,0,0,0,,DOUBLE TAP IF
+Dialogue: 0,0:00:30.09,0:00:31.17,GreenPop,,0,0,0,,YOU NEEDED THIS
+Dialogue: 0,0:00:31.17,0:00:31.90,WhitePop,,0,0,0,,REMINDER TODAY.
