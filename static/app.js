@@ -106,7 +106,8 @@ const btnCancelSettings = document.getElementById("btn-cancel-settings");
 const btnSaveSettings = document.getElementById("btn-save-settings");
 const setIgAccount = document.getElementById("set-ig-account");
 const setIgToken = document.getElementById("set-ig-token");
-const setLlmProvider = document.getElementById("set-llm-provider");
+const setImageProvider = document.getElementById("set-image-provider");
+const setOpenaiKey = document.getElementById("set-openai-key");
 
 const toast = document.getElementById("toast");
 
@@ -118,7 +119,8 @@ async function init() {
     loadVoices(),
     loadAssets(),
     loadAutopilotStatus(),
-    loadHistory()
+    loadHistory(),
+    loadSettings()
   ]);
   setupEventListeners();
 }
@@ -559,7 +561,8 @@ async function handleRenderVideo() {
     language: appState.selectedLanguage,
     custom_bg: bgSelect.value ? `assets/backgrounds/${bgSelect.value}` : null,
     enable_ai_visuals: appState.enableAiVisuals,
-    num_scenes: appState.numScenes
+    num_scenes: appState.numScenes,
+    previewed_scenes: appState.previewedScenes
   };
 
   try {
@@ -802,9 +805,55 @@ async function handleSaveAutopilot() {
 }
 
 // Settings Management
-function handleSaveSettings() {
-  showToast("Settings saved to local environment! ⚙️");
-  modalSettings.classList.add("hidden");
+async function loadSettings() {
+  try {
+    const res = await fetch("/api/settings");
+    const data = await res.json();
+    if (data.image_provider && setImageProvider) {
+      setImageProvider.value = data.image_provider;
+    }
+    if (data.has_openai_key && setOpenaiKey) {
+      setOpenaiKey.placeholder = "sk-•••••••••••••••• (API Key Configured)";
+    }
+    if (data.instagram && data.instagram.account_id && setIgAccount) {
+      setIgAccount.value = data.instagram.account_id;
+    }
+  } catch (err) {
+    console.error("Failed to load settings:", err);
+  }
+}
+
+async function handleSaveSettings() {
+  btnSaveSettings.disabled = true;
+  btnSaveSettings.textContent = "Saving...";
+
+  const payload = {
+    image_provider: setImageProvider ? setImageProvider.value : "openai",
+    openai_api_key: setOpenaiKey && setOpenaiKey.value.trim() ? setOpenaiKey.value.trim() : null,
+    instagram_account_id: setIgAccount ? setIgAccount.value.trim() : null,
+    instagram_access_token: setIgToken ? setIgToken.value.trim() : null
+  };
+
+  try {
+    const res = await fetch("/api/settings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    const result = await res.json();
+    if (result.success) {
+      showToast("Settings saved to studio environment! ⚙️✨");
+      modalSettings.classList.add("hidden");
+      await loadSettings();
+    } else {
+      showToast("Error saving settings: " + (result.detail || "Unknown error"));
+    }
+  } catch (err) {
+    showToast("Failed to save settings: " + err.message);
+  } finally {
+    btnSaveSettings.disabled = false;
+    btnSaveSettings.textContent = "Save Settings";
+  }
 }
 
 // Toast Helper

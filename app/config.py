@@ -26,6 +26,11 @@ OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 
+# Image Generation Settings
+IMAGE_PROVIDER = os.getenv("IMAGE_PROVIDER", "openai").lower()  # "openai", "gemini", or "pollinations"
+DALLE_MODEL = os.getenv("DALLE_MODEL", "dall-e-3")  # "dall-e-3" or "dall-e-2"
+DALLE_QUALITY = os.getenv("DALLE_QUALITY", "standard")  # "standard" or "hd"
+
 INSTAGRAM_ACCOUNT_ID = os.getenv("INSTAGRAM_ACCOUNT_ID", "")
 INSTAGRAM_ACCESS_TOKEN = os.getenv("INSTAGRAM_ACCESS_TOKEN", "")
 FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID", "")

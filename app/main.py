@@ -63,6 +63,7 @@ class RenderRequest(BaseModel):
     custom_music: Optional[str] = None
     enable_ai_visuals: Optional[bool] = True
     num_scenes: Optional[int] = 4
+    previewed_scenes: Optional[List[Dict[str, Any]]] = None
 
 class GenerateImagesRequest(BaseModel):
     script_text: str
@@ -159,21 +160,29 @@ async def api_render_video(req: RenderRequest):
             text = data.get("script", "")
             base_id = f"reel_{int(time.time())}"
             
-            # 1. Generate AI Scene Images (if enabled)
+            # 1. AI Scene Visuals
             scene_images = None
             if enable_ai_visuals and text:
-                print(f"[Pipeline] 🎨 Generating AI scene images...")
-                img_result = generate_scene_images(
-                    script_text=text,
-                    niche=niche,
-                    base_id=base_id,
-                    num_scenes=num_scenes
-                )
-                if img_result["success"]:
-                    scene_images = img_result["scenes"]
-                    print(f"[Pipeline] ✅ {img_result['images_generated']} scene images ready")
-                else:
-                    print(f"[Pipeline] ⚠️ Image generation failed, falling back to procedural visuals")
+                # Reuse scenes already generated during preview if available
+                if req.previewed_scenes and len(req.previewed_scenes) > 0:
+                    valid_previewed = [s for s in req.previewed_scenes if s.get("image_path") and Path(s["image_path"]).exists()]
+                    if valid_previewed:
+                        scene_images = valid_previewed
+                        print(f"[Pipeline] ♻️ Reusing {len(scene_images)} previewed scene images!")
+
+                if not scene_images:
+                    print(f"[Pipeline] 🎨 Preparing AI scene images...")
+                    img_result = generate_scene_images(
+                        script_text=text,
+                        niche=niche,
+                        base_id=base_id,
+                        num_scenes=num_scenes
+                    )
+                    if img_result["images_generated"] > 0:
+                        scene_images = img_result["scenes"]
+                        print(f"[Pipeline] ✅ {img_result['images_generated']} scene visuals ready")
+                    else:
+                        print(f"[Pipeline] ⚠️ Image generation failed, falling back to procedural visuals")
 
             # 2. Generate Voice & Synchronized Captions (with slower speed rate)
             audio_info = await generate_speech_and_subtitles(
@@ -231,7 +240,7 @@ async def api_render_video(req: RenderRequest):
                         base_id=base_id,
                         num_scenes=num_scenes
                     )
-                    if img_result["success"]:
+                    if img_result["images_generated"] > 0:
                         scene_images = img_result["scenes"]
 
                 audio_info = await generate_speech_and_subtitles(
@@ -307,14 +316,96 @@ def api_post_autopilot(req: AutopilotRequest):
     )
     return {"success": True, "status": get_scheduler_status()}
 
+class SettingsUpdateRequest(BaseModel):
+    openai_api_key: Optional[str] = None
+    gemini_api_key: Optional[str] = None
+    image_provider: Optional[str] = None
+    llm_provider: Optional[str] = None
+    instagram_account_id: Optional[str] = None
+    instagram_access_token: Optional[str] = None
+
 @app.get("/api/settings")
 def api_get_settings():
+    from app.config import (
+        LLM_PROVIDER, OLLAMA_MODEL, OPENAI_API_KEY, GEMINI_API_KEY,
+        IMAGE_PROVIDER
+    )
     creds = check_credentials()
     return {
         "llm_provider": LLM_PROVIDER,
+        "image_provider": IMAGE_PROVIDER,
         "ollama_model": OLLAMA_MODEL,
+        "has_openai_key": bool(OPENAI_API_KEY and OPENAI_API_KEY.strip()),
+        "has_gemini_key": bool(GEMINI_API_KEY and GEMINI_API_KEY.strip()),
         "instagram": creds
     }
+
+@app.post("/api/settings")
+def api_update_settings(req: SettingsUpdateRequest):
+    env_path = BASE_DIR / ".env"
+    if not env_path.exists():
+        env_path.touch()
+
+    lines = env_path.read_text(encoding="utf-8").splitlines()
+    updates = {}
+    if req.openai_api_key is not None:
+        updates["OPENAI_API_KEY"] = req.openai_api_key.strip()
+        os.environ["OPENAI_API_KEY"] = req.openai_api_key.strip()
+    if req.gemini_api_key is not None:
+        updates["GEMINI_API_KEY"] = req.gemini_api_key.strip()
+        os.environ["GEMINI_API_KEY"] = req.gemini_api_key.strip()
+    if req.image_provider is not None:
+        updates["IMAGE_PROVIDER"] = req.image_provider.strip().lower()
+        os.environ["IMAGE_PROVIDER"] = req.image_provider.strip().lower()
+    if req.llm_provider is not None:
+        updates["LLM_PROVIDER"] = req.llm_provider.strip().lower()
+        os.environ["LLM_PROVIDER"] = req.llm_provider.strip().lower()
+    if req.instagram_account_id is not None:
+        updates["INSTAGRAM_ACCOUNT_ID"] = req.instagram_account_id.strip()
+        os.environ["INSTAGRAM_ACCOUNT_ID"] = req.instagram_account_id.strip()
+    if req.instagram_access_token is not None:
+        updates["INSTAGRAM_ACCESS_TOKEN"] = req.instagram_access_token.strip()
+        os.environ["INSTAGRAM_ACCESS_TOKEN"] = req.instagram_access_token.strip()
+
+    new_lines = []
+    seen = set()
+    for line in lines:
+        matched = False
+        for k, v in updates.items():
+            if line.startswith(f"{k}="):
+                new_lines.append(f"{k}={v}")
+                seen.add(k)
+                matched = True
+                break
+        if not matched:
+            new_lines.append(line)
+
+    for k, v in updates.items():
+        if k not in seen:
+            new_lines.append(f"{k}={v}")
+
+    env_path.write_text("\n".join(new_lines) + "\n", encoding="utf-8")
+    
+    # Reload config variables dynamically in memory
+    import app.config as cfg
+    import app.image_engine as ie
+    import app.script_engine as se
+    if "OPENAI_API_KEY" in updates:
+        cfg.OPENAI_API_KEY = updates["OPENAI_API_KEY"]
+        ie.OPENAI_API_KEY = updates["OPENAI_API_KEY"]
+        se.OPENAI_API_KEY = updates["OPENAI_API_KEY"]
+    if "GEMINI_API_KEY" in updates:
+        cfg.GEMINI_API_KEY = updates["GEMINI_API_KEY"]
+        ie.GEMINI_API_KEY = updates["GEMINI_API_KEY"]
+        se.GEMINI_API_KEY = updates["GEMINI_API_KEY"]
+    if "IMAGE_PROVIDER" in updates:
+        cfg.IMAGE_PROVIDER = updates["IMAGE_PROVIDER"]
+        ie.IMAGE_PROVIDER = updates["IMAGE_PROVIDER"]
+    if "LLM_PROVIDER" in updates:
+        cfg.LLM_PROVIDER = updates["LLM_PROVIDER"]
+        se.LLM_PROVIDER = updates["LLM_PROVIDER"]
+
+    return {"success": True, "message": "Settings saved successfully! ✨"}
 
 if __name__ == "__main__":
     from app.config import HOST, PORT
