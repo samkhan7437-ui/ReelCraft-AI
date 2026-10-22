@@ -49,7 +49,7 @@ FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID", "")
 PEXELS_API_KEY = os.getenv("PEXELS_API_KEY", "")
 
 PORT = int(os.getenv("PORT", 8000))
-HOST = os.getenv("HOST", "127.0.0.1")
+HOST = os.getenv("HOST", "0.0.0.0")
 
 # Curated Niche Presets with Personas & Visual Aesthetics
 NICHES = {
